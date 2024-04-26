@@ -20,11 +20,9 @@ public class Bezier : MonoBehaviour
     public LineRenderer line;
 
     public Material mat;
-    public Vector3 _2DSpace = new Vector3(0, 0, 1);
+    Vector3 _2DSpace = new Vector3(0, 0, 1);
 
     public static Bezier Instance { get; private set; }
-    public Vector3 targetPostion { get { return m_target; } set { m_target = value; } }
-    private Vector3 m_target = new Vector3(1, 0, 3);
     private void OnDrawGizmos()
     {
         Handles.color = circle;
@@ -61,7 +59,7 @@ public class Bezier : MonoBehaviour
         }
 
         mat.SetColor("_Color", bezier);
-        Vector3 pos;
+            Vector3 pos;
         for (int i = 0; i < points; i++)
         {
             float _t = i / (points - 1.0f);
