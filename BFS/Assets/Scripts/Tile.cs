@@ -4,15 +4,35 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Vector2Int gridPosition;
+    public List<Tile> neighbors;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        BFS();
+    }
+
+    void BFS()
+    {
+        Queue<Tile> queue = new Queue<Tile>();
+        HashSet<Tile> visited = new HashSet<Tile>();
+
+        queue.Enqueue(this);
+        visited.Add(this);
+
+        while (queue.Count > 0)
+        {
+            Tile tile = queue.Dequeue();
+            Debug.Log("Visiting Tile at Position " + tile.gridPosition);
+
+            foreach (Tile neighbor in tile.neighbors)
+            {
+                if (!visited.Contains(neighbor))
+                {
+                    visited.Add(neighbor);
+                    queue.Enqueue(neighbor);
+                }
+            }
+        }
     }
 }

@@ -8,21 +8,23 @@ public class GridGenerator : MonoBehaviour
     public int width, height;
     public GameObject prefab;
     public GameObject tiles;
+    public Tile tile;
     public void GenerateGrid()
     {
-        if(prefab == null)
+        if (prefab == null)
         {
-            Debug.LogError("NO PREFAB FOUND!"); 
+            Debug.LogError("NO PREFAB FOUND!");
         }
         ClearGrid();
         for (int x = 0; x < width; x++)
         {
-            for(int y = 0; y < height; y++)
+            for (int y = 0; y < height; y++)
             {
                 Vector3 pos = new Vector3(x, 0, y);
                 GameObject obj = Instantiate(prefab, Vector3.zero, transform.rotation);
                 obj.transform.position = pos;
                 obj.transform.parent = tiles.transform;
+                obj.AddComponent<Tile>();
                 obj.tag = "Tile";
             }
         }
@@ -31,7 +33,7 @@ public class GridGenerator : MonoBehaviour
     {
         GameObject[] destroyObj;
         destroyObj = GameObject.FindGameObjectsWithTag("Tile");
-        foreach(GameObject obj in destroyObj)
+        foreach (GameObject obj in destroyObj)
         {
             DestroyImmediate(obj);
         }
