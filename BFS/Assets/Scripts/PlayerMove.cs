@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerMove : AIMove
 {
-    // Start is called before the first frame update
+    
+
     void Start()
     {
         Init(); 
