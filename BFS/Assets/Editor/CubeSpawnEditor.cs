@@ -37,4 +37,13 @@ public class CubeSpawnEditor : Editor
             gridGenerator.ClearGrid();
         }
     }
+    [MenuItem("Tools/Assign Tile Script")]
+    public static void AddTileScript()
+    {
+        GridGenerator gridGenerator = FindObjectOfType<GridGenerator>();
+        if (gridGenerator != null)
+        {
+            gridGenerator.AssignTileScript();
+        }
+    }
 }

@@ -4,33 +4,69 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    public Vector2Int gridPosition;
-    public List<Tile> neighbors;
+    public bool isCurrent;
+    public bool isTarget;
+    public bool isSelectable;
+    public bool isWalkable;
 
-    void Update()
+    public bool isVisited = false;
+    public Tile parent = null;
+    public int distance = 0;
+
+    public List<Tile> adjacentList = new List<Tile>();
+    private void Update()
     {
-        BFS();
+        if(isCurrent)
+        {
+            GetComponent<Renderer>().material.color = Color.green;
+        }
+        else if(isTarget)
+        {
+            GetComponent<Renderer>().material.color = Color.red;
+        }
+        else if(isSelectable)
+        {
+            GetComponent<Renderer>().material.color = Color.blue;
+        }
+        else
+        {
+            GetComponent<Renderer>().material = Resources.Load<Material>("Tile");
+        }
     }
 
-    void BFS()
+    public void ResetValues()
     {
-        Queue<Tile> queue = new Queue<Tile>();
-        HashSet<Tile> visited = new HashSet<Tile>();
+        adjacentList.Clear();
+        isCurrent = false;
+        isTarget = false;
+        isSelectable = false;
+        isVisited = false;
+        parent = null;
+        distance = 0;
+    }
 
-        queue.Enqueue(this);
-        visited.Add(this);
+    public void FindNeighbors(float jumpHeight)
+    {
+        ResetValues();
+        CheckTiles(Vector3.forward, jumpHeight);
+        CheckTiles(Vector3.back, jumpHeight);
+        CheckTiles(Vector3.right, jumpHeight);
+        CheckTiles(Vector3.left, jumpHeight);
+    }
 
-        while (queue.Count > 0)
+    public void CheckTiles(Vector3 dir, float jumpHeight)
+    {
+        Vector3 halfExtents = new(0.25f, (1 + jumpHeight) / 2, 0.25f);
+        Collider[] collider = Physics.OverlapBox(transform.position + dir, halfExtents);
+        foreach(Collider col in collider)
         {
-            Tile tile = queue.Dequeue();
-            Debug.Log("Visiting Tile at Position " + tile.gridPosition);
-
-            foreach (Tile neighbor in tile.neighbors)
+            Tile tile = col.GetComponent<Tile>();
+            if(tile != null && isWalkable)
             {
-                if (!visited.Contains(neighbor))
+                RaycastHit hit;
+                if(Physics.Raycast(tile.transform.position, Vector3.up, out hit, 1))
                 {
-                    visited.Add(neighbor);
-                    queue.Enqueue(neighbor);
+                    adjacentList.Add(tile);
                 }
             }
         }

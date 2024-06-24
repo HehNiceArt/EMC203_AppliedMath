@@ -8,7 +8,7 @@ public class GridGenerator : MonoBehaviour
     public int width, height;
     public GameObject prefab;
     public GameObject tiles;
-    public Tile tile;
+    
     public void GenerateGrid()
     {
         if (prefab == null)
@@ -45,6 +45,14 @@ public class GridGenerator : MonoBehaviour
         foreach (GameObject obj in tiles)
         {
             obj.GetComponent<Renderer>().material = mat;
+        }
+    }
+    public void AssignTileScript()
+    {
+        GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
+        foreach(GameObject obj in tiles)
+        {
+            obj.AddComponent<Tile>();
         }
     }
 }
