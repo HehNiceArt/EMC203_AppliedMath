@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class PlayerMove : AIMove
 {
-    
-
     void Start()
     {
-        Init(); 
+        Init();
     }
-
-    // Update is called once per frame
     void Update()
     {
-        
+        FindSelectableTIles();
     }
 }
