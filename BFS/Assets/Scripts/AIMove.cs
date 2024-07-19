@@ -12,6 +12,7 @@ public class AIMove : MonoBehaviour
     public float jumpHeight = 2;
     public float moveSpeed;
 
+    public bool isMoving;
     Vector3 velocity = new();
     Vector3 heading = new();
 
